@@ -28,7 +28,24 @@ from Profile.serializer import EstadoSerializer
 from Profile.models import EstadoCivilModel
 from Profile.serializer import EstadoCivilSerializer
 
+import coreapi
+from rest_framework.schemas import AutoSchema
+
+class ProfileLisViewSchema(AutoSchema):
+    def get_manual_fields(self,path,method):
+        extra_fields = []
+        if method.lower() in ('post','get'):
+            extra_fields = [
+                coreapi.Field('nombre')
+            ]
+        manual_fields =super().get_manual_fields(path,method)
+        return manual_fields + extra_fields
+    
+
 class CiudadList(APIView):
+
+    permission_classes = []
+    schema = ProfileLisViewSchema()
     def get(self, request, format=None):
         print("Metodo get filter")
         queryset = CiudadModel.objects.filter(delete = False)
@@ -45,6 +62,9 @@ class CiudadList(APIView):
 
 
 class GeneroList(APIView):
+
+    permission_classes = []
+    schema = ProfileLisViewSchema()
     def get(self, request, format=None):
         print("Metodo get filter")
         queryset = GeneroModel.objects.filter(delete = False)
@@ -60,6 +80,9 @@ class GeneroList(APIView):
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
         
 class OcupacionList(APIView):
+
+    permission_classes = []
+    schema = ProfileLisViewSchema()
     def get(self, request, format=None):
         print("Metodo get filter")
         queryset = OcupacionModel.objects.filter(delete = False)
@@ -75,6 +98,9 @@ class OcupacionList(APIView):
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 class EstadoList(APIView):
+
+    permission_classes = []
+    schema = ProfileLisViewSchema()
     def get(self, request, format=None):
         print("Metodo get filter")
         queryset = EstadoModel.objects.filter(delete = False)
@@ -90,6 +116,9 @@ class EstadoList(APIView):
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 class EstadoCivilList(APIView):
+
+    permission_classes = []
+    schema = ProfileLisViewSchema()
     def get(self, request, format=None):
         print("Metodo get filter")
         queryset = EstadoCivilModel.objects.filter(delete = False)
@@ -105,6 +134,9 @@ class EstadoCivilList(APIView):
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
         
 class ProfileList(APIView):
+
+    permission_classes = []
+    schema = ProfileLisViewSchema()
     def get(self, request, format=None):
         print("Metodo get filter")
         queryset = ProfileModel.objects.filter(delete = False)
